@@ -33,7 +33,7 @@ class Connection implements ConnectionInterface
     {
         $credentials = $this->encodeCredentials($request);
         try {
-            $resp = $this->client->get('api/servers', [
+            $resp = $this->client->get('api/server', [
                 'headers' => [
                     'Authorization' => ['Basic ' . $credentials]
                 ]
