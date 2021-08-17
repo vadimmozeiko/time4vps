@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Server details{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mt-5">Server #{{ id }} details</h1>
+    <div class="card mt-3 mb-3">
+        <div class="card-header">
+            <h5 class="card-title">Hostname: {{ data['domain'] }} <a href="{{ path('rename', {id: id}) }}"><i
+                            class="bi bi-pen"></i></a></h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text"><b>Server type: </b>{{ data['status'] }}</p>
+            <p class="card-text"><b>Server label: </b>{{ data['label'] == '' ? '-' : data['label'] }}</p>
+            <p class="card-text"><b>CPU frequency: </b>{{ data['cpu_frequency'] }}Mhz</p>
+            <p class="card-text"><b>Cores: </b>{{ data['cpu_cores'] }}</p>
+            <p class="card-text"><b>RAM (used/limit): </b>{{ data['ram_used'] }} / {{ data['ram_limit'] }}MB</p>
+            <p class="card-text"><b>DISK (used/limit): </b>{{ data['disk_usage'] }} / {{ data['disk_limit'] }}MB</p>
+            <p class="card-text"><b>Bandwidth (in/out/limit): </b>{{ data['bw_in'] }} / {{ data['bw_out'] }}
+                / {{ data['bw_limit'] }}MB</p>
+            <p class="card-text"><b>OS image: </b>{{ data['os'] }}</p>
+            <p class="card-text"><b>IP: </b>{{ data['ip'] }}</p>
+            <p class="card-text"><b>Tasks: </b></p>
+            <ul>
+                <h6>Active tasks</h6>
+                {% if(data['active_task']) %}
+                    <li class="card-text">{{ data['active_task']['name'] }} <b>created: {{ data['active_task']['activated'] | date('Y-m-d H:m:s') }} </b></li>
+                {% else %}
+                    <li>no current tasks</li>
+                {% endif %}
+            </ul>
+            <ul>
+                <h6>Task history</h6>
+                {% if(data['last_tasks']) %}
+                    {% for task in data['last_tasks'] %}
+                        <li class="card-text">{{ task['name'] }} | <b>completed: {{ task['completed'] | date('Y-m-d H:m:s') }} </b></li>
+                    {% endfor %}
+                {% else %}
+                    <li>no current tasks</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <a href="{{ path('servers') }}" class="btn btn-primary">Back</a>
+{% endblock %}

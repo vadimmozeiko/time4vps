@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    {% endblock %}
+    {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous"></script>
+    {% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand disabled" href="{{ path('index') }}">Dashboard</a>
+        <div class="navbar-nav">
+            {% if(app.session.get('authorized')) %}
+            <a class="nav-item nav-link active" href="{{ path('servers') }}">Servers</a>
+            <a class="nav-item nav-link" href="{{ path('logout') }}">Logout</a>
+            {% else %}
+            <a class="nav-item nav-link" href="{{ path('loginForm') }}">Login</a>
+            {% endif %}
+        </div>
+</nav>
+<div class="container col-6">
+    {% for label, flashes in app.session.flashbag.all %}
+        {% for flash in flashes %}
+            {% if ( label == 'success_message' ) %}
+                <div class="alert alert-success mt-5" role="alert">
+                    {{ flash }}
+                </div>
+            {% elseif ( label == 'error_message' ) %}
+                <div class="alert alert-danger mt-5" role="alert">
+                    {{ flash }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
+
+

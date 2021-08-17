@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Servers{% endblock %}
+
+{% block content %}
+    <div class="card mt-3 mb-3">
+        {% for server in data %}
+            <div class="card-header">
+                <h5 class="card-title">Hostname: {{ server['domain'] }} <a href="{{ path('rename', {id: server['server_id']}) }}"><i class="bi bi-pen"></i></a></h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text"><b>Server type: </b>{{ server['type'] }}</p>
+                <p class="card-text"><b>Server label: </b>{{ server['label'] == '' ? '-' : server['label'] }}</p>
+                <p class="card-text"><b>Server ID: </b>{{ server['server_id'] }}</p>
+                <p class="card-text"><b>Server IP: </b>{{ server['ip'] }}</p>
+                <p class="card-text"><b>Created at: </b>{{ server['date_created'] }}</p>
+                <a href="{{ path('show', {id: server['server_id']}) }}" class="btn btn-info"><i
+                            class="bi bi-info-circle-fill"></i> Details</a>
+                <a href="{{ path('reinstallFrom', {id: server['server_id']}) }}" class="btn btn-warning"><i
+                            class="bi bi-hdd-fill"></i> Install OS</a>
+                <a href="{{ path('restart', {id: server['server_id']}) }}" class="btn btn-danger"><i
+                            class="bi bi-arrow-repeat"></i> Restart</a>
+                <a href="{{ path('resetPass', {id: server['server_id']}) }}" class="btn btn-dark"><i
+                            class="bi bi-key"></i> Reset Password</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

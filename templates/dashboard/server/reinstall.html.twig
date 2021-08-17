@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Install OS{% endblock %}
+
+{% block content %}
+    <h5 class="text-center mt-5">Install OS</h5>
+    <form class="mt-5" action="{{ path('reinstall', {id: id}) }}" method="POST">
+        <div class="mb-3">
+            <h6 class="text-danger text-center">All data in the server will be lost! All of backups of your server will
+                be deleted from
+                our storages!</h6>
+            <label for="os" class="form-label"></label>
+            <select id="os" class="form-select" name="os">
+                <option value="0">Select OS</option>
+                {% for os in oses %}
+                    <option value="{{ os['os'] }}">{{ os['title'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-warning">Install</button>
+        <a href="{{ path('servers') }}" class="btn btn-primary">Back</a>
+    </form>
+{% endblock %}
